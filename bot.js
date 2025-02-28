@@ -38,8 +38,12 @@ app.message(async ({ client, message, logger, say, context }) => {
 	});
         if (response.ok) {
             const data = await response.text();
-	    if (data != "") {
-                say({text:data, thread_ts:msg.thread_ts});
+    	    if (data != "") {
+                if (data.indexOf('{') == 0) {
+                    say(JSON.parse(data))
+                } else {
+                    say({text:data, thread_ts:msg.thread_ts});
+                }
             }
         }
     } catch (e) {
